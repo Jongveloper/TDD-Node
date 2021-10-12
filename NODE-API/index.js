@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 let users = [
   { id: 1, name: 'jong' },
   { id: 2, name: 'hyuk' },
@@ -8,6 +9,8 @@ let users = [
 ];
 
 app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/users', function (req, res) {
   req.query.limit = req.query.limit || 10;
@@ -33,6 +36,17 @@ app.delete('/users/:id', (req, res) => {
   if (Number.isNaN(id)) return res.status(400).end();
   users = users.filter((user) => user.id !== id);
   res.status(204).end();
+});
+
+app.post('/users', (req, res) => {
+  const name = req.body.name;
+  if (!name) return res.status(400).end();
+  const isConflict = users.filter((user) => user.name === name).length;
+  if (isConflict) return res.status(409).end();
+  const id = Date.now();
+  const user = { id, name };
+  users.push(user);
+  res.status(201).json(user);
 });
 
 app.listen(3000, function () {
