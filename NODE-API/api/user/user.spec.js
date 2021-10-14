@@ -71,7 +71,7 @@ describe('DELETE /user/1는', () => {
     });
   });
 });
-describe.only('POST /users는', () => {
+describe('POST /users는', () => {
   const users = [{ name: 'jong' }, { name: 'hyuk' }, { name: 'woo' }];
   before(() => models.sequelize.sync({ force: true }));
   before(() => models.User.bulkCreate(users));
