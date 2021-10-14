@@ -1,10 +1,5 @@
 // api 로직
-
-let users = [
-  { id: 1, name: 'jong' },
-  { id: 2, name: 'hyuk' },
-  { id: 3, name: 'woo' },
-];
+const models = require('../../models');
 
 const index = function (req, res) {
   req.query.limit = req.query.limit || 10;
@@ -12,7 +7,9 @@ const index = function (req, res) {
   if (Number.isNaN(limit)) {
     return res.status(400).end();
   }
-  res.json(users.slice(0, limit));
+  models.User.findAll({ limit }).then((users) => {
+    res.json(users);
+  });
 };
 
 const show = function (req, res) {
