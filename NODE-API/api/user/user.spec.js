@@ -4,7 +4,7 @@ const should = require('should');
 const app = require('../../');
 const models = require('../../models');
 
-describe.only('GET /users는', () => {
+describe('GET /users는', () => {
   describe('성공시', () => {
     const users = [{ name: 'jong' }, { name: 'hyuk' }, { name: 'woo' }];
     before(() => models.sequelize.sync({ force: true }));
@@ -33,7 +33,7 @@ describe.only('GET /users는', () => {
     });
   });
 });
-describe('GET /users/1는', () => {
+describe.only('GET /users/1는', () => {
   describe('성공시', () => {
     it('id가 1인 유저객체를 반환한다.', (done) => {
       request(app)
